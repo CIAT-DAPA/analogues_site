@@ -1,0 +1,4 @@
+/analogues_website_wordpress/wp-config.php
+/analogues_dockerimages/analogues_database/.env
+/analogues_dockerimages/analogues_website/.env
+/analogues_dockerimages/conf/analogues_database_backup_mariadb.sql
