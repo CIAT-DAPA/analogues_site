@@ -1,0 +1,587 @@
+  /*MOON ICONS*/
+  
+  @font-face {
+    font-family: 'icomoon';
+    src: url('fonts/icomoon.eot?rzysel');
+    src: url('fonts/icomoon.eot?rzysel#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?rzysel') format('truetype'), url('fonts/icomoon.woff?rzysel') format('woff'), url('fonts/icomoon.svg?rzysel#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    webkit-font-smoothing: antialiased;
+    moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-online:before {
+    content: "\e900";
+  }
+  
+  .icon-desktop:before {
+    content: "\e901";
+  }
+  
+  .icon-manual:before {
+    content: "\e902";
+  }
+  
+  .icon-citation:before {
+    content: "\e903";
+  }
+  
+  .icon-publication:before {
+    content: "\e904";
+  }
+  
+  .icon-presentation:before {
+    content: "\e905";
+  }
+  
+  .icon-video:before {
+    content: "\e906";
+  }
+  
+  .icon-home:before {
+    content: "\e907";
+  }
+  
+  .icon-database:before {
+    content: "\e908";
+  }
+  
+  .icon-feed:before {
+    content: "\e909";
+  }
+  /* FIN MOON ICONS*/
+  /*ESTILOS GLOBALES*/
+  /* ESTILOS NORMALES (para escritorios muy grandes)
+   /*========================================================================= */
+  
+  html {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 100%;
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #222;
+  }
+  
+  body a {
+    color: #47939c;
+  }
+  
+  body a:hover {
+    text-decoration: none;
+    color: #007BFF;
+  }
+  
+  section {
+    background-color: #f1f1f1;
+    padding-bottom: 40px;
+  }
+  
+  p {
+    /*margin: 10px 0 !important;*/
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+  }
+  
+  ul {
+    line-height: 200%
+  }
+  
+  h1.main-title {
+    font-weight: 300;
+    font-size: 3.125em;
+    line-height: 1.3;
+  }
+  
+  h1 {
+    font-size: 1.875em;
+    line-height: 1.3;
+  }
+  
+  h2 {
+    font-size: 2.5em;
+    line-height: 1.3;
+  }
+  
+  h3 {
+    font-size: 1.5em;
+  }
+  
+  hi h4 {
+    font-size: 0.8em;
+    color: #007BFF;
+    font-style: italic;
+    font-weight: 400;
+  }
+  
+  h5 {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    color: #FFF;
+  }
+  
+  h6 {
+    font-size: 0.8em;
+    color: #666;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-weight: 400;
+  }
+  /*FIN ESTILOS GLOBALES*/
+  /*HEADER*/
+  
+  .menu-fixed {
+    /*clase menu-fixed menu sticky*/
+    z-index: 100;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    height: 44px;
+  }
+  
+  #search-form {
+    font-size: 0.8em;
+  }
+  
+  #logo-ccafs {
+    background-image: url(img/ccafs-logo.gif);
+    width: 351px;
+    height: 106px;
+  }
+  
+  #top-menu {
+    background-color: #47939c;
+    -webkit-box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  #top-menu ul li {
+    margin: 5px 35px 5px 0;
+  }
+  
+  #top-menu a {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #eee;
+  }
+  
+  #top-menu a:hover {
+    text-decoration: none;
+    color: #ffeb84;
+  }
+  
+  #top-menu .current-menu-item a {
+    color: #ffeb84!important;
+  }
+  
+  #about-menu ul li {
+    margin: 5px 10px 5px 0;
+    padding: 0 10px;
+    border-right: 1px dotted #aaa;
+    border-left: 1px dotted #aaa;
+  }
+  
+  #about-menu .current-menu-item a {
+    color: #007BFF!important;
+  }
+  /*FIN HEADER*/
+  /*FRONT PAGE*/
+
+   #jumbotron-message-home {
+     background-color: #FFEB84;
+   }
+ 
+   .text-justify {
+    text-align:justify;	
+   }
+  
+  #gotool {
+    margin-top: -20px;
+    margin-bottom: 20px;
+    height: 200px;
+  }
+  
+  #carousel {
+    background-color: #a6d1d6;
+  }
+  
+  .img-carousel {
+    max-height: 600px;
+    min-height: 600px;
+  }
+  
+  .caption-carousel {
+    text-shadow: 2px 2px 2px #333;
+  }
+  
+  .toolres_title {
+    margin-top: 20px;
+    font-weight: 700;
+  }
+  
+  #tools-icons {
+    background-color: #0076a3;
+    font-size: 3em;
+  }
+  
+  #tools-icons a {
+    color: white;
+  }
+  
+  #tools-icons .p-2 {
+    width: 25%;
+    text-align: center;
+    border-left: 1px dotted #47939c;
+    border-right: 1px dotted #47939c;
+  }
+  
+  #tools-icons .p-2:hover {
+    background-color: #0088bc;
+  }
+  
+  #tools-text .p-2 {
+    width: 25%;
+    text-align: center;
+    color: #0076a3;
+  }
+  
+  #resources-container {
+    background-color: white;
+  }
+  
+  #resources-container .p-2 {
+    width: 25%;
+    text-align: center;
+  }
+  
+  #resources-container .p-2:hover {
+    background-color: #eaeaea;
+  }
+  
+  #resources-icons a {
+    font-size: 3em;
+    color: #8ea786;
+  }
+  
+  #resources-icons p {
+    font-size: 0.33em;
+  }
+  
+  #news-front h2 {
+    background: none repeat scroll 0 0 #0076a3;
+    color: #fff;
+    font-size: 1em;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    margin-left: 0;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  
+  #news-front h2 span {
+    padding: 10px 20px;
+    background: none repeat scroll 0 0 #47939c;
+  }
+  
+  #news-front img {
+    margin-top: 25px;
+    width: 250px;
+  }
+  
+  .lastnews-tile {
+    font-size: 0.85em;
+  }
+  
+  .node-type {
+    position: relative;
+    top: 28px;
+    left: -10px;
+    background: #3d3028;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: white;
+    padding: 1px 5px;
+    font-style: normal;
+    font-weight: 400;
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+  
+  .node-type:before {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.12);
+    right: 3px;
+    bottom: -3px;
+    width: 90%;
+  }
+  
+  .node-type:after {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 0;
+    border-color: transparent #3d3028 transparent transparent;
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+  }
+  
+  .node-type a {
+    color: white;
+  }
+  
+  .node-type a:hover {
+    color: white;
+  }
+  /*FIN FRONT PAGE*/
+  /*POST*/
+  
+  .article-title {
+    padding: 10px 0;
+    background: #f1f1f1;
+    color: #416a30;
+  }
+  
+  .article-title h1 {
+    font-weight: 300;
+  }
+  
+  article {
+    padding: 15px 0;
+  }
+  
+  .the-content h4 {
+    font-weight: 400;
+    color: #416a30
+  }
+  
+  .the-content blockquote {
+    font-size: 0.9em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+    padding-left: 15px;
+    border-left: 3px solid #ccc;
+  }
+  
+  .wp-caption.aligncenter {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .wp-caption.alignleft {
+    margin-left: auto;
+    margin-right: 1.5em;
+    float: left;
+  }
+  
+  .wp-caption.alignright {
+    margin-right: auto;
+    margin-left: 1.5em;
+    float: right;
+  }
+  
+  .wp-caption-text {
+    text-align: center;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+  /*FIN POST*/
+  /*COMMENTS*/
+  
+  #comments {
+    background-color: #f1f1f1;
+    padding: 25px 0;
+  }
+  /*FIN COMMENTS*/
+  /*NEWS*/
+  
+  .news {
+    padding: 1.5em;
+  }
+  
+  .news-text p {
+    font-size: 0.9em;
+  }
+  
+  .page-numbers {
+    padding: 0.5em 1em 1.5em;
+  }
+  /*FIN NEWS*/
+  /*FOOTER*/
+  
+  #foot {
+    color: #656565;
+    background-color: #e5e9e9;
+    font-weight: 700;
+    font-size: 0.75em;
+    padding-top: 25px;
+  }
+  
+  #foot img:hover {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    filter: grayscale(100%);
+    transition: all 0.5s ease;
+  }
+  
+  #lead-by img {
+    height: 55px;
+  }
+  
+  #partners img {
+    height: 55px;
+  }
+  
+  #row-flagship {
+    margin-top: 35px;
+  }
+  
+  #flagship img {
+    height: 55px;
+  }
+  
+  #get-in-touch img {
+    height: 35px;
+  }
+  
+  #foot p {
+    font-size: 1em;
+    font-weight: 400;
+    padding: 10px 0!important;
+    text-align: center;
+    margin-bottom: 0px!important;
+  }
+  /*FIN FOOTER*/
+  /*PAGE ONLINE*/
+  
+  #map {
+    height: 600px;
+  }
+  
+  #online-frame p {
+    text-align: center;
+  }
+  /*FIN PAGE ONLINE*/
+  /*/ RESPONSIVE*/
+  /*========================================================================= /*/
+  /*/ Tablets en horizonal y escritorios normales*/
+  /*------------------------------------------------------------------------- /*/
+  
+  @media (min-width: 768px) and (max-width: 1199px) {
+    body {
+      font-size: 0.75em;
+      line-height: 1.5;
+    }
+    h1.main-title {
+      font-size: 2em;
+    }
+    .container {
+      /*background-color: blue;*/
+    }
+#gotool {
+display:none;
+}
+    .img-carousel {
+      max-height: 300px;
+      min-height: 300px;
+    }
+    #news-front img {
+      width: 150px;
+    }
+    .lastnews-tile {
+      /*font-size: 0.75em;*/
+      line-height: 1.2em !important;
+    }
+    .btn {
+      padding: 6px !important;
+    }
+    #lead-by img {
+      height: 45px;
+    }
+    #partners img {
+      height: 45px;
+    }
+    #row-flagship {
+      margin-top: 25px;
+    }
+    #flagship img {
+      height: 35px;
+    }
+    #get-in-touch img {
+      height: 25px;
+    }
+    .wp-image-521 {
+      display: none;
+    }
+    .practical-uses img {
+      width: 100px;
+      height: 100px;
+    }
+    .wp-caption {
+      max-width: 710px;
+    }
+    .wp-caption img {
+      max-width: 700px;
+      max-height: 465px;
+    }
+    .wp-caption-text {
+      max-width: 700px;
+    }
+  }
+  /*/ Móviles en horizontal o tablets en vertical*/
+  /*------------------------------------------------------------------------- /*/
+  
+  @media (max-width: 767px) {
+   body {
+      font-size: 0.55em;
+      line-height: 1.3;
+    }
+    h1.main-title {
+      font-size: 2em;
+    }
+      
+    #logo-ccafs {
+      display: none;
+    }
+    .container {
+     /* background-color: red;*/
+    }
+    .carousel{
+      display:none;
+    }
+#tools-icons {
+font-size:2em;
+
+  }
+  /*/ Móviles en vertical*/
+  /*------------------------------------------------------------------------- */
+  
+  @media (max-width: 480px) {
+    .container {
+      background-color: black;
+    }
+  }
