@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 JGALLEGO
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <!-- User Manual -->
+            <div id="tabs-1">
+                <a id="helpTitleSection" href="#" onClick="displaySection('userManualSection')"> <h1 class="contentTitle">User Manual</h1></a>
+                <div class="helpContent" id="userManualSection">
+                    <a href="#" target="_blank">
+                        Please download this user manual            
+                    </a>
+                </div>
+            </div>
+
+            <!-- Templates -->
+            <div id="tabs-2">
+                <a href="#" onClick="displaySection('templatesSection')"><h1 class="contentTitle">Templates</h1></a>
+                <div class="helpContent" id="templatesSection">
+                    <div id="template-downloads1">
+                        <a href="#" target="_blank">
+                            Please download this Project Core template
+                        </a>
+                    </div>
+                    <div id="template-downloads2">
+                        <a href="#"> Please download this bilateral template </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        function displaySection(section){
+        $(".helpContent").hide();
+        $("#"+section).show(1000);
+        }
+        
+    </script>
+</html>
+

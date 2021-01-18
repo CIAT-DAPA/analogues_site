@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <title>CCAFS Climate Analogues Online</title>   
+        <meta http-equiv="X-UA-Compatible" content="IE=7,IE=8,IE=9,IE=10,chrome=1" />
+        <meta name="viewport" content="initial-scale=0, maximum-scale=1,user-scalable=yes">
+        <meta name="author" content="Ernesto Giron Echeverry">
+        <meta name="copyright" content="&copy; 2011 - 2013 CCAFS - CIAT.">
+        <meta name="keywords" content="CCAFS,CIAT,egiron,Climate,Analogues,Similarity">
+        <meta name="date" content="2013-03-13T08:49:37+00:00">
+
+        <link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/dojo/dijit/themes/nihilo/nihilo.css">
+        <link rel="stylesheet" href="//serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/esri/css/esri.css">
+        <link rel="stylesheet" href="js/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="js/ccafs/dijit/mapgallery/css/mapgallery.css">
+        <link rel="stylesheet" href="css/analoguesdtb_.css">
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <!--[if lte IE 6]>
+          <link rel="stylesheet" href="js/theme/default/ie6-style.css" type="text/css" />
+        <![endif]-->
+
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <br/>
+                <div class="span12 columns">
+                    <div id="alertMsg" class="alertaError alert alert-error fade in"><div id="errMsg"></div></div>
+                    <div id="analoguesSteps">
+                        <div class="carousel-steps"> <!-- STEP 1-->
+                            <table cellpadding="4" style="width:100%;height:100%;"> 
+                                <tr><td style="width:50%;"> 
+                                        <div style="width:100%; height:400px;margin:1px;border:1px solid #999;background:#f9f9f9;"> 
+                                            <div id="step1" style="padding-left:15px;padding-right:15px;"> 
+                                                <h3>Step 1: Select your location</h3> 
+                                                <p style="display:inline;">i) Select a reference site:</p> 
+                                                <div id="zoneshelp" style="position:relative;margin-left:10px;margin-bottom:5px;" class="icon-question-sign"></div> 
+                                                <div class="alert fade in"> 
+                                                    Use the tab below to zoom to a country then click a location on the map to get coordinates, or alternatively, enter the latitude and longitude directly 
+                                                </div> 
+                                                <select id="ClimaticZone" style="width:150px;display:inline;" title="" onchange="ZoomtoClimaticZone(this.options[this.selectedIndex].value);"> 
+                                                    <!-- <option disabled="disabled" value="none" selected="">Zoom to country</option>--> 
+                                                    <option value="global" selected="selected" >Global</option> 
+                                                    <optgroup label="COUNTRY">
+
+                                                    </optgroup>
+                                                </select> 
+                                                <div style="position:relative;width:250px;float:right;top:-10px;"> 
+                                                    <div class="form-horizontal control-group"> 
+                                                        <label class="control-label" for="lat">Latitude:</label> 
+                                                        <div class="controls"> 
+                                                            <input id="lat" onchange="addSiteSelected();" type="number" step="any" min="-60.0" max="90.0" class="input-small"  value="" placeholder="eg. 33.593"/> 
+                                                            <span id="lathelp" class="icon-question-sign"></span> 
+                                                        </div> 
+                                                    </div> 
+                                                    <div class="form-horizontal control-group"> 
+                                                        <label class="control-label" for="lng">Longitude:</label> 
+                                                        <div class="controls"> 
+                                                            <input id="lng" onchange="addSiteSelected();" type="number" step="any" min="-180.0" max="180.0" class="input-small" value="" placeholder="eg. 0.732" /> 
+                                                            <span id="lnghelp" class="icon-question-sign"></span> 
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <p style="display:inline;">ii) Select a search range:</p> 
+                                                <div id="searchrangehelp" style="position:relative;margin-left:10px;margin-bottom:10px;margin-right:25px;" class="icon-question-sign"></div> 
+                                                <select id="SearchRange" onchange="checkClimaticZones();"> 
+                                                    <option value="global" selected="">Global</option> 
+                                                    <optgroup label="COUNTRY">
+
+                                                    </optgroup>
+                                                </select>
+                                                <hr/> 
+                                                <p style="text-align:center;margin-top:20px;"><a id="step1Btn" class="btn btn-success btn-large" href="JavaScript:void(0);" >Continue &raquo;</a></p> 
+                                            </div> 
+                                        </div>
+                                    </td>
+                                    <td style="width:50%;"> 
+                                        <div id="mouseposition" class="unselectable"></div> 
+                                        <div id="maphelp"><span class="icon-question-sign"></span></div>
+                                        <div id="map"></div>
+                                    </td> 
+                                </tr> 
+                            </table> 
+                        </div>
+                        <div class="carousel-steps"> <!-- STEP 2-->
+                            <div class="carousel-steps-content"> 
+                                <h3>Step 2: Select a direction and global climate models </h3> 
+                                <div> 
+                                    <h5 style="display:inline; margin-right:20px;">Direction:</h5> 
+                                    <div id="directionBtns" class="btn-group" data-toggle="buttons-radio"> 
+                                        <button type="button" class="btn" name="backward">Backward</button> 
+                                        <button type="button" class="btn" name="forward">Forward</button> 
+                                        <button type="button" class="active btn btn-primary" name="none">None</button> 
+                                    </div> 
+                                    <span id="directionhelp" class="icon-question-sign"></span> 
+                                    <p class="btnStep2"><a id="step2Btn" class="btn btn-success btn-large" href="JavaScript:void(0);" >Continue &raquo;</a></p> 
+                                </div> 
+                                <div> 
+                                    <h5 style="margin-bottom:0px;">Global climate models: <span id="gcmshelp" class="icon-question-sign"></span></h5> 
+                                    <table style="margin-bottom:0px;width:99%; background-color:#f9f9f9;"> 
+                                        <tr><td style="width:40%;"> 
+                                                <div class="gcmOptions"> 
+                                                    <h5 style="text-align:center;">Reference site:</h5> 
+                                                    <select id="refPeriod" style="width:250px;" onchange="changeRefPeriod(this.options[this.selectedIndex].value);"> 
+                                                        <option value="1960_1990" selected="">1960 - 1990</option> 
+                                                        <option value="2020_2049">2020 - 2049</option> 
+                                                    </select>
+                                                    <select id="refScenario" style="width:250px;" onchange="changeRefScenario(this.options[this.selectedIndex].value);"> 
+                                                        <option value="baseline" selected="">Baseline</option> 
+                                                        <option value="a1b">SRES A1B</option> 
+                                                        <option value="a2" disabled="disabled">SRES A2</option> 
+                                                        <option value="b1" disabled="disabled">SRES B1</option> 
+                                                    </select>
+                                                    <select id="refgcm" multiple="multiple" name="refModelGCM" size="5" style="width:250px;" onchange="changeRefGCM(this.options[this.selectedIndex].value);">
+                                                    </select> 
+                                                    <select id="refResolution" style="width:250px;" onchange="changeRefResolution(this.options[this.selectedIndex].value);"> 
+                                                        <option value="30s" disabled="disabled">30 arc-seconds</option> 
+                                                        <option value="2_5min" >2.5 arc-minutes</option> 
+                                                        <option value="10min" selected="" >10 arc-minutes</option> 
+                                                    </select>
+                                                </div> 
+                                            </td>
+                                            <td style="width:20%;text-align:center;vertical-align:top;"> 
+                                                <div style="margin-top:48px;"><strong>Period</strong> <span id="periodhelp" class="icon-question-sign"></span></div> 
+                                                <div style="margin-top:24px;"><strong>Scenario</strong> <span id="scenariohelp" class="icon-question-sign"></span></div> 
+                                                <div style="margin-top:55px;"><strong>Model</strong> <span id="modelhelp" class="icon-question-sign"></span></div> 
+                                                <div style="margin-top:60px;"><strong>Resolution</strong> <span id="resolutionhelp" class="icon-question-sign"></span></div> 
+                                            </td>
+                                            <td style="width:40%;"> 
+                                                <div class="gcmOptions"> 
+                                                    <h5 style="text-align:center;">Search range:</h5> 
+                                                    <select id="targetPeriod" style="width:250px;" onchange="changeTargetPeriod(this.options[this.selectedIndex].value);"> 
+                                                        <option value="1960_1990" selected="">1960 - 1990</option> 
+                                                        <option value="2020_2049">2020 - 2049</option> 
+                                                    </select>
+                                                    <select id="targetScenario" style="width:250px;" onchange="changeTargetScenario(this.options[this.selectedIndex].value);"> 
+                                                        <option value="baseline" selected="">Baseline</option> 
+                                                        <option value="a1b">SRES A1B</option> 
+                                                        <option value="a2" disabled="disabled">SRES A2</option> 
+                                                        <option value="b1" disabled="disabled">SRES B1</option> 
+                                                    </select>
+                                                    <select id="targetgcm" multiple="multiple" name="targetModelGCM" size="5" style="width:250px;" onchange="changeTargetGCM(this.options[this.selectedIndex].value);">
+                                                    </select> 
+                                                    <select id="targetResolution" style="width:250px;" onchange="changeTargetResolution(this.options[this.selectedIndex].value);">
+                                                        <option value="30s" disabled="disabled">30 arc-seconds</option>
+                                                        <option value="2_5min">2.5 arc-minutes</option>
+                                                        <option value="10min" selected="" >10 arc-minutes</option>
+                                                    </select>
+                                                </div>
+                                            </td></tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-steps">
+                            <div class="carousel-steps-content">
+                                <h3>Step 3: Select climate variables and define other analysis settings</h3>
+                                <div style="width:100%;height:325px;overflow:visible;">
+                                    <table style="width:100%;height:325px;">
+                                        <tr>
+                                            <td width="55%">
+                                                <p style="position:relative;float:left;font-weight:bold;">Climatic and bioclimatic variables &nbsp;&nbsp;
+                                                    <span id="climaticvarshelp" class="icon-question-sign"></span></p>
+                                                <p style="position:relative;float:right;margin-right:35px;ont-weight:bold;">Weights&nbsp;&nbsp;
+                                                    <span id="weightshelp" class="icon-question-sign"></span></p>
+                                                <div id="divclimaticvars" style="width:100%;height:288px;overflow-y:auto;border: 1px solid rgb(41, 116, 53);border-radius: 5px;"
+                                                     class="form-horizontal">
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_tmean" checked="true"/>
+                                                        <label class="control-label" for="tmean">MONTHLY MEAN TEMPERATURE</label>
+                                                        <input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="0.5" id="tmean"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_prec" checked="true"/>
+                                                        <label class="control-label" for="prec">MONTHLY PRECIPITATION</label>
+                                                        <input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="0.5" id="prec"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_1"/>
+                                                        <label class="control-label" for="bio_1">ANNUAL MEAN TEMPERATURE</label>
+                                                        <input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_1"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_2"/>
+                                                        <label class="control-label" for="bio_2">MEAN DIURNAL RANGE</label>
+                                                        <input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_2"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_3"/>
+                                                        <label class="control-label" for="bio_3">ISOTHERMALITY</label>
+                                                        <input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_3"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_4"/>
+                                                        <label class="control-label" for="bio_4">TEMPERATURE SEASONALITY
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_4"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_5"/>
+                                                        <label class="control-label" for="bio_5">MAX TEMPERATURE OF WARMEST PERIOD
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_5"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_6"/>
+                                                        <label class="control-label" for="bio_6">MIN TEMPERATURE OF COLDEST PERIOD
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_6"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_7"/>
+                                                        <label class="control-label" for="bio_7">TEMPERATURE ANNUAL RANGE
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_7"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_8"/>
+                                                        <label class="control-label" for="bio_8">MEAN TEMPERATURE OF WETTEST QUARTER
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_8"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_9"/>
+                                                        <label class="control-label" for="bio_9">MEAN TEMPERATURE OF DRIEST QUARTER
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_9"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_10"/>
+                                                        <label class="control-label" for="bio_10">MEAN TEMPERATURE OF WARMEST QUARTER
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_10"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_11"/>
+                                                        <label class="control-label" for="bio_11">MEAN TEMPERATURE OF COLDEST QUARTER
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_11"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_12"/>
+                                                        <label class="control-label" for="bio_12">ANNUAL PRECIPITATION
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_12"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_13"/>
+                                                        <label class="control-label" for="bio_13">PRECIPITATION OF WETTEST PERIOD
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_13"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_14"/>
+                                                        <label class="control-label" for="bio_14">PRECIPITATION OF DRIEST PERIOD
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_14"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_15"/>
+                                                        <label class="control-label" for="bio_15">PRECIPITATION SEASONALITY
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_15"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_16"/>
+                                                        <label class="control-label" for="bio_16">PRECIPITATION OF WETTEST QUARTER
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_16"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_17"/>
+                                                        <label class="control-label" for="bio_17">PRECIPITATION OF DRIEST QUARTER
+                                                        </label><input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_17"></p>
+                                                    <p class="pclimaticvars"><input type="checkbox" id="chk_bio_18"/>
+                                                        <label class="control-label" for="bio_18">PRECIPITATION OF WARMEST QUARTER</label>
+                                                        <input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_18"></p>
+                                                    <p class="pclimaticvars bgGray"><input type="checkbox" id="chk_bio_19"/>
+                                                        <label class="control-label" for="bio_19">PRECIPITATION OF COLDEST QUARTER</label>
+                                                        <input onkeypress="onkeypressClimaticVars();" type="number" step="0.01" min="0.0" max="1.0" class="input-small" value="" id="bio_19"></p>
+                                                </div>
+                                            </td>
+                                            <td width="50%">
+                                                <div class="divOtherSettings">
+                                                    <div style="display:none;">
+                                                        <h5 style="display:inline; margin-right:20px;">Similarity Index:</h5>
+                                                        <div id="methodBtns" class="btn-group">
+                                                            <button type="button" class="active btn btn-primary" name="ccafs">ccafs</button>
+                                                            <button type="button" class="btn" name="hallegatte">hallegatte</button>
+                                                        </div>
+                                                        <span id="similarityIndexhelp" class="icon-question-sign"></span>
+                                                    </div>
+                                                    <div id="rotationOpts">
+                                                        <h5 style="display:inline; margin-right:10px;">Rotation:</h5>
+                                                        <div id="rotationBtns" class="btn-group">
+                                                            <button type="button" class="btn" name="prec" id="precbtn">prec</button>
+                                                            <button type="button" class="btn" name="tmean" id="tmeanbtn">tmean</button>
+                                                            <button type="button" class="btn" name="both" id="bothbtn">both</button>
+                                                            <button type="button" class="active btn btn-primary" name="none" id="nonebtn">none</button>
+                                                        </div>
+                                                        <span id="rotationhelp" class="icon-question-sign"></span>
+                                                    </div>
+                                                    <div>
+                                                        <h5>Temporal scope: &nbsp;&nbsp;<span id="growingseasonhelp" class="icon-question-sign"></span></h5>
+                                                        <div id="temporalScope" class="temporalScope">
+                                                            <table style="width:100%;text-align:center;">
+                                                                <tr><td rowspan="2"><strong>Growing season date 1:</strong></td><td>Start</td><td></td><td>End</td></tr>
+                                                                <tr>
+                                                                    <td><input id="growingSeason1_startDate" value="1" class="span1" type="number" min="1" max="12" data-dojo-type="bootstrap/Datepicker"></td>
+                                                                    <td></td>
+                                                                    <td><input id="growingSeason1_endDate" value="12" class="span1" type="number" min="1" max="12" data-dojo-type="bootstrap/Datepicker"></td>
+                                                                </tr>
+                                                                <tr><td rowspan="2"><strong>Growing season date 2:</strong></td><td>Start</td><td></td><td>End</td></tr>
+                                                                <tr>
+                                                                    <td><input id="growingSeason2_startDate" value="" class="span1" type="number" min="1" max="12" data-dojo-type="bootstrap/Datepicker"></td>
+                                                                    <td></td>
+                                                                    <td><input id="growingSeason2_endDate" value="" class="span1" type="number" min="1" max="12" data-dojo-type="bootstrap/Datepicker"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div id="thresholddiv">
+                                                        <h5>Threshold: 
+                                                            <input id="threshold" type="number" step="0.01" min="0.0" max="1.0" value="0.0" class="input-mini"/>
+                                                            &nbsp;&nbsp;<span id="thresholdhelp" class="icon-question-sign"></span></h5>
+                                                    </div>
+                                                </div>
+                                                <p class="btnStep3"><a id="step3Btn" class="btn btn-success btn-large" href="JavaScript:void(0);" >Run Analysis &raquo;</a></p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="carousel-steps">
+                            <table cellpadding="4" style="width:100%;height:100%;">
+                                <tr><td style="width:50%;">
+                                        <div style="width:100%; height:400px;margin:1px;border:1px solid #999;background:#f9f9f9;">
+                                            <div id="step4" style="padding-left:15px;padding-right:15px;">
+                                                <h3>Step 4: Selecting candidate analogue sites:</h3>
+                                                <div id="divResults">
+                                                    <table id="tablelyrResults" class="table table-striped" style="margin:5px 0px;width:100%;">
+                                                    </table>
+                                                </div>
+                                                <div id="sessionBtns" style="display:block;text-align:left;margin-top:5px;">
+                                                    <div class="fileinputs">
+                                                        <input id="fileToLoad" type="file" class="file" onChange="loadSession();"/>
+                                                        <div class="fakefile">
+                                                            <input style="width:80px;height:20px;" class="btn btn-primary" />
+                                                            <p class="loadFileTitle">Load Session</p>
+                                                        </div>
+                                                    </div>
+                                                    <a id="saveSessionBtn" class="btn btn-primary" href="JavaScript:saveSession();">Save Session</a>\
+                                                </div>
+                                                <hr style="margin:13px;"/>
+                                                <div>
+                                                    <div id="divProgressBar" class="progress progress-success progress-striped active">
+                                                        <div class="bar" style="width: 100%;">
+                                                            <i style="position:relative;top:4px;">Calculating Climate Analogues for the selected site...</i>
+                                                        </div>
+                                                    </div>
+                                                    <p style="position:relative;float:left;text-align:center;"><a id="step4DownloadBtn" class="btn btn-success btn-large" href="JavaScript:void(0);" >Download Last Result</a></p>
+                                                    <p style="position:relative;float:right;text-align:center;"><a id="step4showMapLargeScreenBtn" class="btn btn-success btn-large" href="JavaScript:void(0);" >View Larger Map</a></p>
+                                                </div>
+                                            </div>
+                                    </td><td style="width:50%;">
+                                        <div id="mapaResultado"><div id="loading"><div id="loadingMessage">Processing Climate Similarity...<br><img src="imgs/loading_gray_circle.gif"></div> </div></div>
+                                        <div id="mapResults">
+                                            <div id="mapResultsMouseposition" class="unselectable"></div>
+                                            <div id="mapResultsLegend" class="unselectable" title="Interpreting results: Areas that have higher similarity values more closely resemble the specified climate at the reference site."></div>
+                                        </div>
+                                    </td> </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div id="mapgallery">
+                        <hr/>
+                        <h4>Previous Runs</h4>
+                        <div id="lastvisitedSites"></div>
+                        <div id="analoguespager" class="pagination pagination-centered"></div>
+                    </div>
+                    <hr/>
+                    <div class="alert alert-info">
+                        <p>
+                            The analogues approach is a novel way of supporting modeled policy recommendations with on-the-ground empirical testing. Analogues refer to sites or years that experience conditions with statistical similarity, primarily in terms of current or future climate, but they can also include additional factors such as soils, crops, and socioeconomic characteristics. This helps link top-down global models with targeted field trials or visits. In essence, the approach locates a site whose climate today is similar to the given future of a place of interest (i.e. where can we find today the future climate of Nairobi, Kenya?), or vice-versa.
+                        </p>
+                        <p>
+                            This project is supported by the <strong>CGIAR Research Program on Climate Change, Agriculture and Food Security (CCAFS)</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Google Analytics -->
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-27375162-3', 'cgiar.org'); //this is the original
+            //ga('create', 'UA-43958342-1', {'name': 'dev'});  // New tracker for development ccafs.apps.test@gmail.com.
+            ga('send', 'pageview');
+            //ga('dev.send', 'pageview'); // Send page view for new tracker. 
+        </script>
+        <script>
+            var dojoConfig = {
+                async: 1,
+                parseOnLoad: true,
+                packages: [
+                    {name: "bootstrap", location: location.pathname.replace(/\/[^/]+$/, '') + "/js/dojobootstrap"},
+                    {name: "ccafs", location: location.pathname.replace(/\/[^/]+$/, '') + "/js/ccafs"}
+                ]
+            };
+        </script>
+        <script type="text/javascript" src="//serverapi.arcgisonline.com/jsapi/arcgis/?v=3.4"></script>
+        <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+        <script src="js/OpenLayers.js"></script>
+        <script type="text/javascript" src="js/climateAnalogues_v1_.js"></script>
+        <script></script>
+    </body>
+</html>
